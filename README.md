@@ -1,1 +1,4 @@
-# DB_Search_Service
+# Materials DB Search Service  
+  
+## Dependencies/Required Installations  
+requests, psycopg2
