@@ -1,8 +1,8 @@
-import requests
+from flask import Flask, request
 import urlparse
 import psycopg2
 
-def dbConnect():
+def herokuDBConnect():
 	urlparse.uses_netloc.append("postgres")
 	url = urlparse.urlparse(os.environ["DATABASE_URL"])
 	conn = psycopg2.connect(
@@ -12,6 +12,11 @@ def dbConnect():
     	host=url.hostname,
     	port=url.port)
 	return conn
+
+@app.route('/', methods=['POST'])
+def requestHandler():
+	print("Received")
+	print(request.form)
 
 def main():
 	pass
