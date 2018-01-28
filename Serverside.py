@@ -1,5 +1,6 @@
 from flask import Flask, request
 import urlparse
+import os
 import psycopg2
 app = Flask(__name__)
 
@@ -23,4 +24,5 @@ def main():
 	pass
 
 if __name__ == "__main__":
-	main()
+	port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
