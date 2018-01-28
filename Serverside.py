@@ -1,5 +1,5 @@
 from flask import Flask, request
-from urllib import urlparse
+from urllib.parse import urlparse
 import os
 import psycopg2
 app = Flask(__name__)
