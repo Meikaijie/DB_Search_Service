@@ -1,6 +1,7 @@
 from flask import Flask, request
 import urlparse
 import psycopg2
+app = Flask(__name__)
 
 def herokuDBConnect():
 	urlparse.uses_netloc.append("postgres")

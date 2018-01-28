@@ -1,4 +1,4 @@
 # Materials DB Search Service  
   
 ## Dependencies/Required Installations  
-requests, psycopg2
+requests, psycopg2, Flask
