@@ -10,48 +10,32 @@ def main():
 
 def requestREPL(url):
 	while True:
-		# compound = None
-		# compound_logic = None
-		# compound_ind = None
-		raw_request = raw_input('please enter a request of the form - \ncommand, compound:logic, property1:value1:logic1, property2:value2:logic2, etc.\n')
-		request_list = raw_request.split(',')
-		if len(request_list) < 2:
-			print("A request requires at least a command, and a compound")
-			continue
-		# Strip extra spaces
-		for i in range(len(request_list)):
-			request_list[i] = " ".join(request_list[i].split())
-			# if "compound" in request_list[i].lower():
-			# 	compound = request_list[i].split(":")[1].strip()
-			# 	compound_logic = request_list[i].split(":")[2].strip()
-			# 	compound_ind = i
-		command = request_list[0]
-		compound = request_list[1].split(":")[0].strip()
-		compound_logic = request_list[1].split(":")][1].strip()
-		property_list = []
-		if len(request_list)>2:
-			property_list = request_list[2:]
-
+		command = raw_input('please enter a command - add, search, or quit\n')
+		command = " ".join(command.lower().split())
 		if command == "quit":
 			break
-		# if not compound_ind is None:
-		# 	property_list = request_list[1:compound_ind] + request_list[compound_ind+1:]
+		raw_compound = raw_input('please enter a compound in the format - compound:compoundLogic - or nothing if a compound is not applicable to the request\n')
+		raw_property = raw_input('please enter an optional list of properties of the form - propertyName1:value1:logic1, propertyName2:value2:logic2, etc.')
+		property_list = raw_property.split(',')
 
-		if command.lower() == "add":
-			if compound is None:
-				print("Compound entry missing")
-				continue
-			elif compound == '':
-				print("A non-empty formula must be entered for an add request")
+		for i in range(len(property_list)):
+			property_list[i] = " ".join(property_list[i].split())
+		c = raw_compound.split(":")
+		compound = c[0].strip()
+		compound_logic = c[min(1,len(c)-1)].strip()
+
+		if command == "add":
+			if compound == '':
+				print("A non-empty compound formula must be entered for an add request")
 				continue
 			response = requests.post(url+"/data/add",json=buildAddDict(compound,property_list))
 			print(response.text)
-		elif command.lower() == "search":
+		elif command == "search":
 			response = requests.post(url+"/data/search",json=buildSearchDict(compound,compound_logic,property_list))
 			print(response.text)
 
 		### Extra commands go here
-		elif command.lower() == "create table":
+		elif command == "create table":
 			tablename = raw_input('please enter a table name\n')
 			columns = raw_input('please enter column names and column types in the format -\n name1:type1, name2:type2, etc.\n').split(",")
 			response = requests.post(url+"/data/create",json=buildCreateDict(tablename,columns))
@@ -69,6 +53,9 @@ def buildAddDict(compound, property_list):
 	proplist = []
 	for prop in property_list:
 		breakdown = prop.split(":")
+		if len(breakdown)<2:
+			print("skipping empty or improperly formatted property")
+			continue
 		innerdict = {}
 		innerdict["propertyName"] = breakdown[0]
 		innerdict["propertyValue"] = breakdown[1]
@@ -82,6 +69,9 @@ def buildSearchDict(compound, compound_logic, property_list):
 	proplist = []
 	for prop in property_list:
 		breakdown = prop.split(":")
+		if len(breakdown)<3:
+			print("skipping empty or improperly formatted property")
+			continue
 		innerdict = {}
 		innerdict["propertyName"] = breakdown[0]
 		innerdict["propertyValue"] = breakdown[1]
@@ -96,6 +86,8 @@ def buildCreateDict(tablename, columns):
 	columnlist = []
 	for column in columns:
 		columnSplit = column.split(":")
+		if len(columnSplit)<2:
+			print("skipping empty or improperly formatted column")
 		innerdict = {}
 		innerdict["columnName"] = columnSplit[0]
 		innerdict["columnType"] = columnSplit[1]
