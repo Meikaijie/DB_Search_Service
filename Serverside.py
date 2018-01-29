@@ -40,7 +40,7 @@ class CreateHandler(Resource):
 	def post(self):
 		tablename = request.json['tableName']
 		columns = request.json['columns']
-		columnString = "("
+		columnString = "( "
 		for column in columns:
 			columnString += column['columnName']+" "+column['columnType']+","
 		columnString = columnString[:-1] + ")"

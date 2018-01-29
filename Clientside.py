@@ -80,6 +80,7 @@ def buildSearchDict(compound, compound_logic, property_list):
 		innerdict["propertyName"] = breakdown[0]
 		innerdict["propertyValue"] = breakdown[1]
 		innerdict["propertyLogic"] = breakdown[2]
+		proplist.append(innerdict)
 	output["properties"] = proplist
 	return output
 
@@ -92,6 +93,7 @@ def buildCreateDict(tablename, columns):
 		innerdict = {}
 		innerdict["columnName"] = columnSplit[0]
 		innerdict["columnType"] = columnSplit[1]
+		columnlist.append(innerdict)
 	output["columns"] = columnlist
 	return output
 
