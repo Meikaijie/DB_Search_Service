@@ -20,16 +20,17 @@ def requestREPL(url):
 		# Strip extra spaces
 		for i in range(len(request_list)):
 			request_list[i] = " ".join(request_list[i].split())
-			if "compound" in request_list[i].lower():
+			if "compound:" in request_list[i].lower():
 				compound = request_list[i].split(":")[1].strip()
 				compound_logic = request_list[i].split(":")[2].strip()
 				compound_ind = i
 		command = request_list[0]
+
 		if command == "quit":
 			break
-		property_list = request_list[1:compound_ind] + request_list[compound_ind+1:]
+		if not compound_ind is None:
+			property_list = request_list[1:compound_ind] + request_list[compound_ind+1:]
 
-		# Command validation
 		if command.lower() == "add":
 			if compound is None:
 				print("Compound entry missing")
