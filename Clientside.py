@@ -47,7 +47,8 @@ def requestREPL(url):
 		### Extra commands go here
 		elif command.lower() == "create table":
 			tablename = raw_input('please enter a table name\n')
-			response = requests.post(url+"/data/create",json={"tableName":tablename})
+			columns = raw_input('please enter column name:column type pairs separated by commas\n').split(",")
+			response = requests.post(url+"/data/create",json={"tableName":tablename, "columns":columns})
 			print(response.text)
 		###
 
@@ -81,8 +82,6 @@ def buildSearchDict(compound, compound_logic, property_list):
 		innerdict["propertyLogic"] = breakdown[2]
 	output["properties"] = proplist
 	return output
-
-
 
 if __name__ == "__main__":
 	main()

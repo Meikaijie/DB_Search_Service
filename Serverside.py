@@ -39,9 +39,15 @@ class SearchHandler(Resource):
 class CreateHandler(Resource):
 	def post(self):
 		tablename = request.json['tableName']
+		columns = request.json['columns']
+		columnString = "("
+		for column in columns:
+			columnSplit = column.split(":")
+			columnString += columnSplit[0] + " " + columnSplit[1] + ","
+		columnString = columnString[:-1] + ")"
 		conn = herokuDBConnect()
 		cur = conn.cursor()
-		cur.execute("CREATE TABLE %s", (tablename))
+		cur.execute("CREATE TABLE "+tablename+columnString)
 		conn.commit()
 		cur.close()
 		conn.close()
