@@ -17,7 +17,7 @@ def herokuDBConnect():
 
 @app.route('/', methods=['POST'])
 def requestHandler():
-	return "Received"
+	return request.form
 
 if __name__ == "__main__":
 	port = int(os.environ.get("PORT", 5000))
