@@ -24,11 +24,17 @@ def herokuDBConnect():
 
 class AddHandler(Resource):
 	def post(self):
-		return "Add Received"
+		compound = request.json['compound']
+		properties = request.json['properties']
+		return str(type(properties))
 
 class SearchHandler(Resource):
 	def post(self):
 		return "Search Received"
+
+# More command handlers go here if we want
+
+#
 
 api.add_resource(AddHandler, '/data/add')
 api.add_resource(SearchHandler, '/data/search')
