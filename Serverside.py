@@ -38,9 +38,10 @@ class SearchHandler(Resource):
 ### Extra command handlers go here
 class CreateHandler(Resource):
 	def post(self):
-		conn = herokuDBConnect()
 		tablename = request.json['tableName']
-		conn.execute("CREATE TABLE "+tablename)
+		conn = herokuDBConnect()
+		cur = conn.cursor()
+		cur.execute("CREATE TABLE "+tablename)
 		return {'status':'success'}
 ###
 
