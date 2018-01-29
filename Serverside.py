@@ -43,7 +43,7 @@ class AddHandler(Resource):
 		addQuery = "INSERT INTO "
 		addQuery += active_table+" "
 		columnString = "(compound"
-		valueString = "("+compound
+		valueString = "('"+compound+"'"	
 		for prop in properties:
 			pname = prop["propertyName"]
 			pval = prop["propertyValue"]
