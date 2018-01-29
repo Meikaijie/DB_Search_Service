@@ -40,9 +40,7 @@ class AddHandler(Resource):
 		return {"status":"success"}
 
 	def buildAddQuery(self, compound, properties):
-		addQuery = '''
-		INSERT INTO 
-		'''
+		addQuery = "INSERT INTO"
 		addQuery += active_table+" "
 		columnString = "(compound"
 		valueString = "("+compound
