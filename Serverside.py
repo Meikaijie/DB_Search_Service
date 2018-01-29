@@ -42,8 +42,7 @@ class CreateHandler(Resource):
 		columns = request.json['columns']
 		columnString = "("
 		for column in columns:
-			columnSplit = column.split(":")
-			columnString += columnSplit[0] + " " + columnSplit[1] + ","
+			columnString += column['columnName']+" "+column['columnType']+","
 		columnString = columnString[:-1] + ")"
 		conn = herokuDBConnect()
 		cur = conn.cursor()
