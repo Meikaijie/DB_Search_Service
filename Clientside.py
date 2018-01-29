@@ -27,14 +27,14 @@ def requestREPL(url):
 		command = request_list[0]
 		if command == "quit":
 			break
-		if compound is None:
-			print("Compound missing")
-			continue
 		property_list = request_list[1:compound_ind] + request_list[compound_ind+1:]
 
 		# Command validation
 		if command.lower() == "add":
-			if compound == '':
+			if compound is None:
+				print("Compound entry missing")
+				continue
+			elif compound == '':
 				print("A non-empty formula must be entered for an add request")
 				continue
 			response = requests.post(url+"/data/add",json=buildAddDict(compound,property_list))
@@ -43,7 +43,7 @@ def requestREPL(url):
 			response = requests.post(url+"/data/search",json=buildSearchDict(compound,compound_logic,property_list))
 			print(response.text)
 
-		### More commands go here if we want
+		### Extra commands go here
 		elif command.lower() == "create table":
 			tablename = raw_input('please enter a table name\n')
 			response = requests.post(url+"/data/create",json={"tableName":tablename})

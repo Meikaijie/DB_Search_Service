@@ -8,8 +8,8 @@ app = Flask(__name__)
 api = Api(app)
 
 def herokuDBConnect():
-	urlparse.uses_netloc.append("postgres")
-	url = urlparse.urlparse(os.environ["DATABASE_URL"])
+	# urlparse.uses_netloc.append("postgres")
+	url = urlparse.urlparse(os.environ["postgres://obhapecrmxysab:6cf517838bcdbf7f82915bcf05bbe4dca597e373cc1a055e54bba23dbcd1a779@ec2-54-225-103-255.compute-1.amazonaws.com:5432/df9d9q2tejj4e2"])
 	conn = psycopg2.connect(
     	database=url.path[1:],
     	user=url.username,
@@ -35,7 +35,7 @@ class SearchHandler(Resource):
 	def post(self):
 		return "Search Received"
 
-### More command handlers go here if we want
+### Extra command handlers go here
 class CreateHandler(Resource):
 	def post(self):
 		conn = herokuDBConnect()
