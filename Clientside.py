@@ -37,10 +37,10 @@ def requestREPL(url):
 			if compound == '':
 				print("A non-empty formula must be entered for an add request")
 				continue
-			response = requests.post(url,json=buildAddDict(compound,property_list))
+			response = requests.post(url+"/data/add",json=buildAddDict(compound,property_list))
 			print(response.text)
 		elif command.lower() == "search":
-			response = requests.post(url,json=buildSearchDict(compound,compound_logic,property_list))
+			response = requests.post(url+"/data/search",json=buildSearchDict(compound,compound_logic,property_list))
 			print(response.text)
 
 		# More commands go here if we want
