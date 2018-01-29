@@ -20,7 +20,7 @@ def requestREPL(url):
 		# Strip extra spaces
 		for i in range(len(request_list)):
 			request_list[i] = " ".join(request_list[i].split())
-			if "compound:" in request_list[i].lower():
+			if "compound" in request_list[i].lower():
 				compound = request_list[i].split(":")[1].strip()
 				compound_logic = request_list[i].split(":")[2].strip()
 				compound_ind = i
