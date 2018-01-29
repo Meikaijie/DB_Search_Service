@@ -6,6 +6,7 @@ import psycopg2
 
 app = Flask(__name__)
 api = Api(app)
+active_table = "Compound_Data"
 
 def herokuDBConnect():
 	# urlparse.uses_netloc.append("postgres")
@@ -26,14 +27,48 @@ class AddHandler(Resource):
 	def post(self):
 		compound = request.json['compound']
 		properties = request.json['properties']
-		return "Add Received"
+		conn = herokuDBConnect()
+		cur = conn.cursor()
+		# for dic in properties:
+		# 	pname = dic["propertyName"]
+		# 	pval = dic["propertyValue"]
+		# 	cur.execute("IF COL_LENGTH('postgresql-spherical-79867.Compound_Data', '{0}') IS NOT NULL ")
+		cur.execute(self.buildAddQuery(compound, properties))
+		conn.commit()
+		cur.close()
+		conn.close()
+		return {"status":"success"}
 
-	def buildAddQuery(self):
-		pass
+	def buildAddQuery(self, compound, properties):
+		addQuery = '''
+		INSERT INTO 
+		'''
+		addQuery += active_table+" "
+		columnString = "(compound"
+		valueString = "("+compound
+		for prop in properties:
+			pname = prop["propertyName"]
+			pval = prop["propertyValue"]
+			columnString += ", "+pname
+			valueString += ", "+pval
+		columnString += ")"
+		valueString += ")"
+		addQuery += columnString + " VALUES " + valueString + ";"
+		return addQuery
 
 class SearchHandler(Resource):
 	def post(self):
+		compound = request.json['compound']
+		properties = request.json['properties']
+		conn = herokuDBConnect()
+		cur = conn.cursor()
+
+		conn.commit()
+		cur.close()
+		conn.close()
 		return "Search Received"
+
+		# Possible logic: contains, eq, gt, lt, negation
 
 ### Extra command handlers go here
 class CreateHandler(Resource):

@@ -15,7 +15,7 @@ def requestREPL(url):
 		if command == "quit":
 			break
 		raw_compound = raw_input('please enter a compound in the format - compound:compoundLogic - or nothing if a compound is not applicable to the request\n')
-		raw_property = raw_input('please enter an optional list of properties of the form - propertyName1:value1:logic1, propertyName2:value2:logic2, etc.')
+		raw_property = raw_input('please enter an optional list of properties of the form - propertyName1:value1:logic1, propertyName2:value2:logic2, etc.\n')
 		property_list = raw_property.split(',')
 
 		for i in range(len(property_list)):
