@@ -41,7 +41,7 @@ class CreateHandler(Resource):
 		tablename = request.json['tableName']
 		conn = herokuDBConnect()
 		cur = conn.cursor()
-		cur.execute("CREATE TABLE "+tablename)
+		cur.execute("CREATE TABLE %s", (tablename))
 		conn.commit()
 		cur.close()
 		conn.close()
