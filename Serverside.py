@@ -26,18 +26,27 @@ class AddHandler(Resource):
 	def post(self):
 		compound = request.json['compound']
 		properties = request.json['properties']
-		return str(type(properties))
+		return "Add Received"
+
+	def buildAddQuery(self):
+		pass
 
 class SearchHandler(Resource):
 	def post(self):
 		return "Search Received"
 
-# More command handlers go here if we want
-
-#
+### More command handlers go here if we want
+class CreateHandler(Resource):
+	def post(self):
+		conn = herokuDBConnect()
+		tablename = request.json['tableName']
+		conn.execute("CREATE TABLE "+tablename)
+		return {'status':'success'}
+###
 
 api.add_resource(AddHandler, '/data/add')
 api.add_resource(SearchHandler, '/data/search')
+api.add_resource(CreateHandler, '/data/create')
 
 if __name__ == "__main__":
 	port = int(os.environ.get("PORT", 5000))

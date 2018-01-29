@@ -43,9 +43,12 @@ def requestREPL(url):
 			response = requests.post(url+"/data/search",json=buildSearchDict(compound,compound_logic,property_list))
 			print(response.text)
 
-		# More commands go here if we want
-
-		#
+		### More commands go here if we want
+		elif command.lower() == "create table":
+			tablename = raw_input('please enter a table name\n')
+			response = requests.post(url+"/data/create",json={"tableName":tablename})
+			print(response.text)
+		###
 
 		else:
 			print("Invalid or empty command")
