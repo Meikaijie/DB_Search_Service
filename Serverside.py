@@ -1,3 +1,4 @@
+from decimal import Decimal
 from flask import Flask, request
 from flask_restful import Resource, Api
 from psycopg2.extras import RealDictCursor
@@ -67,10 +68,22 @@ class SearchHandler(Resource):
 		conn = herokuDBConnect()
 		cur = conn.cursor(cursor_factory=RealDictCursor)
 		cur.execute("SELECT * FROM "+active_table)
-		result = json.dumps(cur.fetchall(),indent=2)
+		result = self.buildResultJson(cur.fetchall())
 		cur.close()
 		conn.close()
 		return result
+
+	def buildResultJson(self, result):
+		cleanResult = []
+		for row in result:
+			templist = []
+			for i in range(len(row)):
+				if type(row[i]) == Decimal:
+					templist.append(float(row[i]))
+				else:
+					templist.append(row[i])
+			cleanResult.append(tuple(templist))
+		return json.dumps(cleanResult,indent=2)
 
 		# Possible logic: contains, eq, gt, lt, negation
 
