@@ -76,14 +76,13 @@ class SearchHandler(Resource):
 	def buildResultJson(self, result):
 		cleanResult = []
 		for row in result:
-			print(type(row))
-			templist = []
-			for val in row:
+			tempdict = {}
+			for key, val in row.iteritems():
 				if type(val) == Decimal:
-					templist.append(float(val))
+					tempdict[key] = float(val)
 				else:
-					templist.append(val)
-			cleanResult.append(tuple(templist))
+					tempdict[key] = val
+			cleanResult.append(tempdict)
 		return json.dumps(cleanResult,indent=2)
 
 		# Possible logic: contains, eq, gt, lt, negation
