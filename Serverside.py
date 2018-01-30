@@ -97,9 +97,9 @@ class SearchHandler(Resource):
 		compoundString = "compound "
 		if compoundlogic.lower() == 'contains':
 			compoundString += "LIKE '%{}%' ".format(compound)
-		elif compoundlogic.lower() == 'not contains':
+		elif compoundlogic.lower() == 'not_contains':
 			compoundString += "NOT LIKE '%{}%' ".format(compound)
-		elif 'not eq' in compoundlogic.lower():
+		elif 'not_eq' in compoundlogic.lower():
 			compoundString += "!= '{}' ".format(compound)
 		elif 'eq' in compoundlogic.lower():
 			compoundString += "= '{}' ".format(compound)
@@ -114,9 +114,9 @@ class SearchHandler(Resource):
 			propertyString = "{} ".format(p)
 			if plog == 'contains':
 				propertyString += "LIKE '%{}%' ".format(pval)
-			elif plog == 'not contains':
+			elif plog == 'not_contains':
 				propertyString += "NOT LIKE '%{}%' ".format(pval)
-			elif 'not eq' in plog:
+			elif 'not_eq' in plog:
 				try:
 					gate = float(pval)
 					propertyString += "!= {} ".format(pval)
@@ -128,13 +128,13 @@ class SearchHandler(Resource):
 					propertyString += "= {} ".format(pval)
 				except:
 					propertyString += "= '{}' ".format(pval)
-			elif plog == 'gt' or plog == 'not lte':
+			elif plog == 'gt' or plog == 'not_lte':
 				propertyString += "> {} ".format(pval)
-			elif plog == 'lt' or plog == 'not gte':
+			elif plog == 'lt' or plog == 'not_gte':
 				propertyString += "< {} ".format(pval)
-			elif plog == 'gte' or plog == 'not lt':
+			elif plog == 'gte' or plog == 'not_lt':
 				propertyString += ">= {} ".format(pval)
-			elif plog == 'lte' or plog == 'not gt':
+			elif plog == 'lte' or plog == 'not_gt':
 				propertyString += "<= {} ".format(pval)
 			searchQuery += propertyString
 		return searchQuery[:-1]+";"
