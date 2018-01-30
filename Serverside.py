@@ -3,7 +3,7 @@ from flask import Flask, request
 from flask_restful import Resource, Api
 from psycopg2.extras import RealDictCursor
 from urllib.parse import urlparse
-import json
+# import json
 import os
 import psycopg2
 
@@ -77,14 +77,18 @@ class SearchHandler(Resource):
 		cleanResult = []
 		for row in result:
 			tempdict = {}
+			tempdict['compound'] = row['compound']
+			properties = []
 			for key in row:
 				val = row[key]
+				if key == 'compound':
+					continue
 				if type(val) == Decimal:
-					tempdict[key] = float(val)
-				else:
-					tempdict[key] = val
+					val = float(val)
+				properties.append({'propertyName':key,'propertyValue':val})
+			tempdict['properties'] = properties
 			cleanResult.append(tempdict)
-		return json.dumps(cleanResult,indent=2)
+		return {'results':cleanResult}
 
 		# Possible logic: contains, eq, gt, lt, negation
 

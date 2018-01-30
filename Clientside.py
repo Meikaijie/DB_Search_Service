@@ -32,7 +32,7 @@ def requestREPL(url):
 			print(response.text)
 		elif command == "search":
 			response = requests.post(url+"/data/search",json=buildSearchDict(compound,compound_logic,property_list))
-			print(response.text)
+			print(response.json())
 
 		### Extra commands go here
 		elif command == "create table":
