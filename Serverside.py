@@ -1,6 +1,8 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
+from psycopg2.extras import RealDictCursor
 from urllib.parse import urlparse
+import json
 import os
 import psycopg2
 
@@ -63,9 +65,9 @@ class SearchHandler(Resource):
 		compound = request.json['compound']
 		properties = request.json['properties']
 		conn = herokuDBConnect()
-		cur = conn.cursor()
+		cur = conn.cursor(cursor_factory=RealDictCursor)
 		cur.execute("SELECT * FROM "+active_table)
-		result = cur.fetchall()
+		result = json.dumps(cur.fetchall(),indent=2)
 		cur.close()
 		conn.close()
 		return result
