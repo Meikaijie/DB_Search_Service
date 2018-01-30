@@ -22,7 +22,9 @@ def requestREPL(url):
 			property_list[i] = "_".join(property_list[i].split())
 		c = raw_compound.split(":")
 		compound = c[0].strip()
-		compound_logic = c[min(1,len(c)-1)].strip()
+		compound_logic = c[-1].strip()
+		if len(c) < 2:
+			compound_logic = ''
 
 		if command == "add":
 			if compound == '':

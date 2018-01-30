@@ -27,7 +27,10 @@ class AddHandler(Resource):
 		properties = request.json['properties']
 		conn = herokuDBConnect()
 		cur = conn.cursor()
-		cur.execute(self.buildAddQuery(compound, properties))
+		try:
+			cur.execute(self.buildAddQuery(compound, properties))
+		except:
+			return {"Error":"Invalid Query"}
 		conn.commit()
 		cur.close()
 		conn.close()
@@ -58,7 +61,10 @@ class SearchHandler(Resource):
 		properties = request.json['properties']
 		conn = herokuDBConnect()
 		cur = conn.cursor(cursor_factory=RealDictCursor)
-		cur.execute(self.buildSearchQuery(compound,properties))
+		try:
+			cur.execute(self.buildSearchQuery(compound,properties))
+		except:
+			return {"Error":"Invalid Query"}
 		result = self.buildResultJson(cur.fetchall())
 		cur.close()
 		conn.close()
@@ -143,7 +149,10 @@ class CreateHandler(Resource):
 		columnString = columnString[:-1] + ")"
 		conn = herokuDBConnect()
 		cur = conn.cursor()
-		cur.execute("CREATE TABLE "+tablename+columnString)
+		try:
+			cur.execute("CREATE TABLE "+tablename+columnString)
+		except:
+			return {"Error":"Invalid Query"}
 		conn.commit()
 		cur.close()
 		conn.close()
