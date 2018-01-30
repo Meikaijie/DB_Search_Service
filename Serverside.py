@@ -108,31 +108,31 @@ class SearchHandler(Resource):
 			searchQuery += "AND "
 			p = prop['propertyName']
 			pval = prop['propertyValue']
-			plog = prop['propertyLogic']
+			plog = prop['propertyLogic'].lower()
 			propertyString = "{} ".format(p)
-			if plog.lower() == 'contains':
+			if plog == 'contains':
 				propertyString += "LIKE '%{}%' ".format(pval)
-			elif plog.lower() == 'not contains':
+			elif plog == 'not contains':
 				propertyString += "NOT LIKE '%{}%' ".format(pval)
-			elif 'not eq' in plog.lower():
+			elif 'not eq' in plog:
 				try:
 					gate = float(pval)
 					propertyString += "!= {} ".format(pval)
 				except:
 					propertyString += "!= '{}' ".format(pval)
-			elif 'eq' in plog.lower():
+			elif 'eq' in plog:
 				try:
 					gate = float(pval)
 					propertyString += "= {} ".format(pval)
 				except:
 					propertyString += "= '{}' ".format(pval)
-			elif plog.lower() == 'gt' or plog.lower() == 'not lte':
+			elif plog == 'gt' or plog == 'not lte':
 				propertyString += "> {} ".format(pval)
-			elif plog.lower() == 'lt' or plog.lower() == 'not gte':
+			elif plog == 'lt' or plog == 'not gte':
 				propertyString += "< {} ".format(pval)
-			elif plog.lower() == 'gte' or plog.lower() == 'not lt':
+			elif plog == 'gte' or plog == 'not lt':
 				propertyString += ">= {} ".format(pval)
-			elif plog.lower() == 'lte' or plog.lower() == 'not gt':
+			elif plog == 'lte' or plog == 'not gt':
 				propertyString += "<= {} ".format(pval)
 			searchQuery += propertyString
 		return searchQuery[:-1]+";"

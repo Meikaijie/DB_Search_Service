@@ -19,7 +19,7 @@ def requestREPL(url):
 		property_list = raw_property.split(',')
 
 		for i in range(len(property_list)):
-			property_list[i] = " ".join(property_list[i].split())
+			property_list[i] = "_".join(property_list[i].split())
 		c = raw_compound.split(":")
 		compound = c[0].strip()
 		compound_logic = c[min(1,len(c)-1)].strip()
