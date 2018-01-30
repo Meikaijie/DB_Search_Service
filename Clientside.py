@@ -126,8 +126,8 @@ def makeSearchRequest(compound, compound_logic, property_list=[]):
 
 
 # Build and format dictionary using REPL input for create table POST request in JSON format
-# compound is a string representing the chemical formula
-# property_list is a list of strings representing columnName, columnType pairs delimited by ':'
+# tablename is a string
+# columns is a list of strings representing columnName, columnType pairs delimited by ':'
 def buildCreateDict(tablename, columns):
 	output = {}
 	output['tableName'] = tablename
@@ -143,6 +143,9 @@ def buildCreateDict(tablename, columns):
 	output["columns"] = columnlist
 	return output
 
+# Send a create table POST request to the server and return the response object
+# tablename is a string
+# columns is a list of string tuples containing columnName, columnType pairs
 def makeCreateRequest(tablename, columns):
 	request = {}
 	request['tableName'] = tablename
