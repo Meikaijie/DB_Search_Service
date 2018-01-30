@@ -96,9 +96,9 @@ class SearchHandler(Resource):
 		compoundlogic = compounddict['logic']
 		compoundString = "compound "
 		if compoundlogic.lower() == 'contains':
-			compoundString += "LIKE *{}* ".format(compound)
+			compoundString += "LIKE %{}% ".format(compound)
 		elif compoundlogic.lower() == 'not contains':
-			compoundString += "NOT LIKE *{}* ".format(compound)
+			compoundString += "NOT LIKE %{}% ".format(compound)
 		elif 'not eq' in compoundlogic.lower():
 			compoundString += "!= {} ".format(compound)
 		elif 'eq' in compoundlogic.lower():
@@ -111,9 +111,9 @@ class SearchHandler(Resource):
 			plog = prop['propertyLogic']
 			propertyString = "{} ".format(p)
 			if plog.lower() == 'contains':
-				propertyString += "LIKE *{}* ".format(pval)
+				propertyString += "LIKE %{}% ".format(pval)
 			elif plog.lower() == 'not contains':
-				propertyString += "NOT LIKE *{}* ".format(pval)
+				propertyString += "NOT LIKE %{}% ".format(pval)
 			elif 'not eq' in plog.lower():
 				propertyString += "!= {} ".format(pval)
 			elif 'eq' in plog.lower():
