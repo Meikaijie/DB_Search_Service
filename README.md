@@ -123,7 +123,7 @@ print(response.json())  # will print {'Error':'Invalid Query'} because 'nonsense
 ```  
   
 #### REPL  
-To start the REPL, call python .../Clientside.py https://citrine-search-api.herokuapp.com, or just python .../Clientside.py. If an API URL is not provided the REPL will prompt the user for one, and https://citrine-search-api.herokuapp.com should be entered then.  
+To start the REPL, call python Clientside.py https://citrine-search-api.herokuapp.com, or just python Clientside.py. If an API URL is not provided the REPL will prompt the user for one, and https://citrine-search-api.herokuapp.com should be entered then.  
   
 To add new data, enter the command 'add', the desired compound formula, and the desired property values when prompted. Below is an example of what proper execution should look like.  
 ```
