@@ -127,6 +127,8 @@ class SearchHandler(Resource):
 				propertyString += ">= {} ".format(pval)
 			elif plog == 'lte' or plog == 'not_gt':
 				propertyString += "<= {} ".format(pval)
+			elif plog == '':
+				propertyString = "TRUE"
 			searchQuery += propertyString
 		return searchQuery[:-1]+";"
 
