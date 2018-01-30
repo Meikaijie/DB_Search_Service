@@ -31,14 +31,14 @@ To add new data, construct a POST request with the JSON formatting below, and se
 {
 	"compound":formula, 
  	"properties":[
-     {
+	 {
 		"propertyName":pName1,
 		"propertyValue":pValue1
-     },
-     {
+	 },
+	 {
 		"propertyName":pName2,
 		"propertyValue":pValue2
-     },
+	 },
     ...
     ]
 }
@@ -48,10 +48,10 @@ For example -
 {
 	"compound":"GaN, 
  	"properties":[
-     {
+	 {
 		"propertyName":"band gap",
 		"propertyValue":"3.4"
-     }
+	 }
     ]
 }
 ```  
@@ -150,7 +150,7 @@ band gap:2:gt, color:White:eq
 		"compound": "Ga2O3".
 		"properties": [
 			{
-				"propertyNAme": "band_gap",
+				"propertyName": "band_gap",
 				"propertyValue": 4.4
 			},
 			{
@@ -165,7 +165,12 @@ band gap:2:gt, color:White:eq
 ```
   
 ## Command/Database Reference  
-
+#####Available REPL commands:  
+add, search, quit  
+#####Existing table columns:  
+compound, band_gap, color  
+#####Available Logical operators:  
+contains (string/text only), eq, gt (greater than, numeric only), lt (less than, numeric only), gte (greater than or equal, numeric only), lte(less than or equal, numeric only), not (goes in front of any other logical operator)  
 
 
 
