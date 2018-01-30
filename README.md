@@ -164,12 +164,12 @@ band gap:2:gt, color:White:eq
 }
 ```
   
-## Command/Database Reference  
-#####Available REPL commands:  
+### Command/Database Reference  
+##### Available REPL commands:  
 add, search, quit  
-#####Existing table columns:  
+##### Existing table columns:  
 compound, band_gap, color  
-#####Available Logical operators:  
+##### Available Logical operators:  
 contains (string/text only), eq, gt (greater than, numeric only), lt (less than, numeric only), gte (greater than or equal, numeric only), lte(less than or equal, numeric only), not (goes in front of any other logical operator)  
 
 
