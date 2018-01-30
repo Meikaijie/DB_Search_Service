@@ -6,7 +6,7 @@ import psycopg2
 
 app = Flask(__name__)
 api = Api(app)
-active_table = "Compound_Data"
+active_table = "comp_data"
 
 def herokuDBConnect():
 	# urlparse.uses_netloc.append("postgres")
@@ -47,6 +47,10 @@ class AddHandler(Resource):
 		for prop in properties:
 			pname = prop["propertyName"]
 			pval = prop["propertyValue"]
+			try:
+				pval = str(float(pval))
+			except:
+				pval = "'"+pval+"'"
 			columnString += ", "+pname
 			valueString += ", "+pval
 		columnString += ")"
