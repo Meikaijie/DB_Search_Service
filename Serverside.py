@@ -103,6 +103,8 @@ class SearchHandler(Resource):
 			compoundString += "!= '{}' ".format(compound)
 		elif 'eq' in compoundlogic.lower():
 			compoundString += "= '{}' ".format(compound)
+		elif compoundlogic == "":
+			compoundString = "TRUE "
 		searchQuery += compoundString
 		for prop in properties:
 			searchQuery += "AND "
