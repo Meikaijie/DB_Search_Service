@@ -67,7 +67,7 @@ class SearchHandler(Resource):
 		properties = request.json['properties']
 		conn = herokuDBConnect()
 		cur = conn.cursor(cursor_factory=RealDictCursor)
-		cur.execute("SELECT * FROM "+active_table)
+		cur.execute(self.buildSearchQuery(compound,properties))
 		result = self.buildResultJson(cur.fetchall())
 		cur.close()
 		conn.close()
@@ -89,6 +89,49 @@ class SearchHandler(Resource):
 			tempdict['properties'] = properties
 			cleanResult.append(tempdict)
 		return json.dumps({'results':cleanResult},indent=2)
+
+	def buildSearchQuery(self, compounddict, properties):
+		searchQuery = "SELECT * FROM "+active_table+" WHERE "
+		compound = compounddict['value']
+		compoundlogic = compounddict['logic']
+		compoundString = "compound "
+		if compoundlogic.lower() == 'contains':
+			compoundString += "LIKE *{}* ".format(compound)
+		elif compoundlogic.lower() == 'not contains':
+			compoundString += "NOT LIKE *{}* ".format(compound)
+		elif 'not eq' in compoundlogic.lower():
+			compoundString += "!= {} ".format(compound)
+		elif 'eq' in compoundlogic.lower():
+			compoundString += "= {} ".format(compound)
+		searchQuery += compoundString
+		for prop in properties:
+			searchQuery += "AND "
+			p = prop['propertyName']
+			pval = prop['propertyValue']
+			plog = prop['propertyLogic']
+			propertyString = "{} ".format(p)
+			if plog.lower() == 'contains':
+				propertyString += "LIKE *{}* ".format(pval)
+			elif plog.lower() == 'not contains':
+				propertyString += "NOT LIKE *{}* ".format(pval)
+			elif 'not eq' in plog.lower():
+				propertyString += "!= {} ".format(pval)
+			elif 'eq' in plog.lower():
+				propertyString += "= {} ".format(pval)
+			elif plog.lower() == 'gt' or plog.lower() == 'not lte':
+				propertyString += "> {} ".format(pval)
+			elif plog.lower() == 'lt' or plog.lower() == 'not gte':
+				propertyString += "< {} ".format(pval)
+			elif plog.lower() == 'gte' or plog.lower() == 'not lt':
+				propertyString += ">= {} ".format(pval)
+			elif plog.lower() == 'lte' or plog.lower() == 'not gt':
+				propertyString += "<= {} ".format(pval)
+			searchQuery += propertyString
+		return searchQuery[:-1]
+
+
+
+
 
 		# Possible logic: contains, eq, gt, lt, negation
 
