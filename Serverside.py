@@ -77,7 +77,8 @@ class SearchHandler(Resource):
 		cleanResult = []
 		for row in result:
 			tempdict = {}
-			for key, val in row:
+			for key in row:
+				val = row[key]
 				if type(val) == Decimal:
 					tempdict[key] = float(val)
 				else:
