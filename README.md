@@ -175,7 +175,8 @@ band_gap
 color  
 ##### Available Logical operators:  
 contains (string/text only)  
-eq, gt (greater than, numeric only)  
+eq  
+gt (greater than, numeric only)  
 lt (less than, numeric only)  
 gte (greater than or equal, numeric only)  
 lte(less than or equal, numeric only)  
