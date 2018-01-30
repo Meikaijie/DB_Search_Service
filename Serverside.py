@@ -64,11 +64,11 @@ class SearchHandler(Resource):
 		properties = request.json['properties']
 		conn = herokuDBConnect()
 		cur = conn.cursor()
-
-		conn.commit()
+		cur.execute("SELECT * FROM "+active_table)
+		result = cur.fetchall()
 		cur.close()
 		conn.close()
-		return "Search Received"
+		return result
 
 		# Possible logic: contains, eq, gt, lt, negation
 
