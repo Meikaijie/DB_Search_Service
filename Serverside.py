@@ -3,7 +3,7 @@ from flask import Flask, request
 from flask_restful import Resource, Api
 from psycopg2.extras import RealDictCursor
 from urllib.parse import urlparse
-# import json
+import json
 import os
 import psycopg2
 
@@ -88,7 +88,7 @@ class SearchHandler(Resource):
 				properties.append({'propertyName':key,'propertyValue':val})
 			tempdict['properties'] = properties
 			cleanResult.append(tempdict)
-		return {'results':cleanResult}
+		return json.dumps({'results':cleanResult},indent=2)
 
 		# Possible logic: contains, eq, gt, lt, negation
 
