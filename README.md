@@ -11,7 +11,7 @@ This web API stores and gives users access to a database containing compounds an
 | Ga2O3    | 4.4      | White |
 | ...      | ...      | ...   |
   
-The API is hosted on Heroku with the domains https://citrine-search-api.herokuapp.com/data/add, https://citrine-search-api.herokuapp.com/data/search, https://citrine-search-api.herokuapp.com/data/create, but can only be interacted with through POST requests.  
+The API is hosted on Heroku with the domains https://citrine-search-api.herokuapp.com/data/add and https://citrine-search-api.herokuapp.com/data/search, but can only be interacted with through POST requests.  
   
 ### File Descriptions  
 Clientside.py - This file contains utility functions that make it easier for users to send properly formatted POST requests to the web API for adding or retrieving data. Additionally, it can be run from the command line/terminal with the command "python Clientside.py" to start a simple REPL that similarly aids users in interacting with the server.  
