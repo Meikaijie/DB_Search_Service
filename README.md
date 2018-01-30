@@ -3,7 +3,7 @@
 requests (2.18.4), psycopg2 (2.7.3.2), Flask (0.12.2), flask-restful (0.3.6)  
   
 ### Introduction/Overview  
-This web API stores and gives users access to a database containing compounds and some of their recorded properties. Currently, there is only one table in the database holding meaningful information, 'comp_data'. The table has three columns - compound, band_gap, and color - and can be visualized as below:  
+This web API stores and gives users access to a database containing compounds and some of their recorded properties. The main functions offered to users are adding new rows to the database, and searching for specific records in the database. Currently, there is only one table in the database holding meaningful information, 'comp_data'. The table has three columns - compound, band_gap, and color - and can be visualized as below:  
   
 | compound | band_gap | color |
 | -------- | -------- | ----- |
@@ -25,7 +25,7 @@ Serverside.py - This file contains server code that parses POST requests, querie
 ### Usage Guide/Examples  
 Users can interact with the server in three ways - building and sending POST requests on their own, sending POST requests through the "make..." functions in Clientside.py, or sending POST requests through the REPL started by calling python Clientside.py.  
   
-##### Raw Requests  
+#### Raw Requests  
 To add new data, construct a POST request with the JSON formatting below, and send it to https://citrine-search-api.herokuapp.com/data/add  
 ```
 {
@@ -36,8 +36,8 @@ To add new data, construct a POST request with the JSON formatting below, and se
 		"propertyValue":pValue1
      },
      {
-    	"propertyName":pName2,
-    	"propertyValue":pValue2
+		"propertyName":pName2,
+		"propertyValue":pValue2
      },
     ...
     ]
@@ -99,7 +99,7 @@ For example -
 }
 ```  
   
-##### Importing Clientside functions  
+#### Importing Clientside functions  
 To add new data, call the makeAddRequest() function as shown below
 ```python
 import Clientside
@@ -122,9 +122,49 @@ response2 = Clientside.makeSearchRequest('Ga','nonsense',[])
 print(response.json())  # will print {'Error':'Invalid Query'} because 'nonsense' is not a valid logical operator
 ```  
   
-##### REPL
+#### REPL  
+To start the REPL, call python .../Clientside.py https://citrine-search-api.herokuapp.com, or just python .../Clientside.py. If an API URL is not provided the REPL will prompt the user for one, and https://citrine-search-api.herokuapp.com should be entered then.  
   
-## Command Reference  
+To add new data, enter the command 'add', the desired compound formula, and the desired property values when prompted. Below is an example of what proper execution should look like.  
+```
+please enter a command - add, search, or quit
+add
+please enter a compound in the format - compound:compoundLogic - or nothing if a compound is not applicable to the request
+Ga2Se3
+please enter an optional list of properties of the form - propertyName1:value1:logic1, propertyName2:value2:logic2, etc.
+band gap:1, color:Brown
+{"status" : "success"}
+```  
+  
+To search for records, enter the command 'search', the desired compound formula and logic, and the desired property values and logic when prompted. Below is an example of what a proper execution should look like.  
+```
+please enter a command - add, search, or quit
+search
+please enter a compound in the format - compound:compoundLogic - or nothing if a compound is not applicable to the request
+Ga:contains
+please enter an optional list of properties of the form - propertyName1:value1:logic1, propertyName2:value2:logic2, etc.
+band gap:2:gt, color:White:eq
+{
+	"results": [
+	{
+		"compound": "Ga2O3".
+		"properties": [
+			{
+				"propertyNAme": "band_gap",
+				"propertyValue": 4.4
+			},
+			{
+				"propertyName": "color",
+				"propertyValue": "White"
+			}
+		]
+	}
+
+	]
+}
+```
+  
+## Command/Database Reference  
 
 
 
