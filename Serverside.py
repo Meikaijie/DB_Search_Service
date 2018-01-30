@@ -12,7 +12,6 @@ api = Api(app)
 active_table = "comp_data"
 
 def herokuDBConnect():
-	# urlparse.uses_netloc.append("postgres")
 	url = urlparse(os.environ["DATABASE_URL"])
 	conn = psycopg2.connect(
     	dbname=url.path[1:],
@@ -22,20 +21,12 @@ def herokuDBConnect():
     	port=url.port)
 	return conn
 
-# @app.route('/', methods=['POST'])
-# def requestHandler():
-# 	return "Received"
-
 class AddHandler(Resource):
 	def post(self):
 		compound = request.json['compound']
 		properties = request.json['properties']
 		conn = herokuDBConnect()
 		cur = conn.cursor()
-		# for dic in properties:
-		# 	pname = dic["propertyName"]
-		# 	pval = dic["propertyValue"]
-		# 	cur.execute("IF COL_LENGTH('postgresql-spherical-79867.Compound_Data', '{0}') IS NOT NULL ")
 		cur.execute(self.buildAddQuery(compound, properties))
 		conn.commit()
 		cur.close()
@@ -138,12 +129,6 @@ class SearchHandler(Resource):
 				propertyString += "<= {} ".format(pval)
 			searchQuery += propertyString
 		return searchQuery[:-1]+";"
-
-
-
-
-
-		# Possible logic: contains, eq, gt, lt, negation
 
 ### Extra command handlers go here
 class CreateHandler(Resource):
