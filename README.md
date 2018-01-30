@@ -26,18 +26,115 @@ Serverside.py - This file contains server code that parses POST requests, querie
 Users can interact with the server in three ways - building and sending POST requests on their own, sending POST requests through the "make..." functions in Clientside.py, or sending POST requests through the REPL started by calling python Clientside.py.  
   
 ##### Raw Requests  
-To add new data, construct a POST request with the JSON formatting -  
+To add new data, construct a POST request with the JSON formatting below, and send it to https://citrine-search-api.herokuapp.com/data/add  
 ```
 {
- "compound":formula, 
- "properties":[
-   {
-	"propertyName":Name1,
-	"propertyValue":Value1
-   },
-   ...
-  ]
+	"compound":formula, 
+ 	"properties":[
+     {
+		"propertyName":pName1,
+		"propertyValue":pValue1
+     },
+     {
+    	"propertyName":pName2,
+    	"propertyValue":pValue2
+     },
+    ...
+    ]
 }
+```  
+For example -  
 ```
+{
+	"compound":"GaN, 
+ 	"properties":[
+     {
+		"propertyName":"band gap",
+		"propertyValue":"3.4"
+     }
+    ]
+}
+```  
+
+To search for records, construct a POST request with the JSON formatting below, and send it to https://citrine-search-api.herokuapp.com/data/search  
+```
+{
+	"compound":{
+		"logic": log,
+		"value": formula
+	}
+	"properties":[
+	 {
+	 	"propertyName":pName1
+	 	"propertyValue":pValue1
+	 	"propertyLogic":pLogic1
+	 },
+	 {
+	 	"propertyName":pName2
+	 	"propertyValue":pValue2
+	 	"propertyLogic":pLogic2
+	 }
+	]
+}
+```  
+For example - 
+```
+{
+	"compound":{
+		"logic": "contains",
+		"value": "Ga"
+	}
+	"properties":[
+	 {
+	 	"propertyName":"band gap"
+	 	"propertyValue":"3.4"
+	 	"propertyLogic":"gt"
+	 },
+	 {
+	 	"propertyName":"color"
+	 	"propertyValue":"White"
+	 	"propertyLogic":"eq"
+	 }
+	]
+}
+```  
+  
+##### Importing Clientside functions  
+To add new data, call the makeAddRequest() function as shown below
+```python
+import Clientside
+
+response1 = Clientside.makeAddRequest('Ga2Se3',[('band gap','2.65'),('color','Yellow')])
+print(response1.text)   # will print {'status':'success'}
+
+response2 = Clientside.makeAddRequest('Ga2Se3',[('nonexistant column','whatever')])
+print(response2.text)   # will print {'Error':'Invalid Query'} because there is no column 'nonexistant column'
+```  
+  
+To search for records, call the makeSearchRequest() function as shown below
+```python
+import Clientside
+
+response1 = Clientside.makeSearchRequest('Ga','contains',[('band gap','2.0','gt')])
+print(response.json())  # will print search results in json format
+
+response2 = Clientside.makeSearchRequest('Ga','nonsense',[])
+print(response.json())  # will print {'Error':'Invalid Query'} because 'nonsense' is not a valid logical operator
+```  
+  
+##### REPL
   
 ## Command Reference  
+
+
+
+
+
+
+
+
+
+
+
+
+
